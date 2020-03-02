@@ -28,7 +28,7 @@ class Vector2
     end
 
     def *(vector)
-        Vector2.new(@x * vector.x, @y * vector.y)
+        @x * vector.x + @y * vector.y
     end
 
     def to_s()
