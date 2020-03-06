@@ -1,42 +1,33 @@
 class Moneda
 
     attr_accessor :valor
-
+    
     def initialize(monto)
         @valor = monto
     end
 
+    # Parte B
     def en(moneda)
-
-        if itself.class == Dolar
-            current = itself.valor
-        elsif itself.class == Yen
-            current = itself.valor*0.0093
-        elsif itself.class == Euro
-            current = itself.valor*1.11
-        elsif itself.class == Bolivar
-            current = itself.valor*0.0000135
-        elsif itself.class == Bitcoin
-            current = itself.valor*8939.96
-        else
-            raise 'Moneda no soportada'
-        end
-
-        if moneda == :dolares
-            return Dolar.new(current)
-        elsif moneda == :yens
-            return Yen.new(current*107.32)
-        elsif moneda == :euros
-            return Euro.new(current*0.9)
-        elsif moneda == :bolivares
-            return Bolivar.new(current*74051)
-        elsif moneda == :bitcoins
-            return Bitcoin.new(current*0.00011)
+        
+        # valor de la moneda * tasa de conversion a dolares 
+        # * tasa de conversion de dolares a moneda destino redondeado a 2 cifras
+        case moneda
+        when :dolares
+            return Dolar.new((itself.valor*itself.rate_to_usd()).round(2))
+        when :yens
+            return Yen.new((itself.valor*itself.rate_to_usd())*107.32.round(2))
+        when :euros
+            return Euro.new((itself.valor*itself.rate_to_usd())*0.9.round(2))
+        when :bolivares
+            return Bolivar.new((itself.valor*itself.rate_to_usd())*74051.round(2))
+        when :bitcoins
+            return Bitcoin.new((itself.valor*itself.rate_to_usd())*0.00011.round(2))
         else
             raise 'Moneda no soportada'
         end
     end
 
+    # Parte C
     def comparar_dolar(moneda)
         if itself.en(:dolares).valor < moneda.valor 
             return :mayor
@@ -90,35 +81,69 @@ class Moneda
 end
 
 class Dolar < Moneda
+
     def comparar(moneda)
         moneda.comparar_dolar(itself)
     end
+
+    # Esta funcion se usa para la parte B
+    # Se pasan todas las monedas a dolares
+    # Y luego se pasan a la moneda destino
+    def rate_to_usd()
+        return 1
+    end
+
 end
 
 class Yen < Moneda
+    
     def comparar(moneda)
         moneda.comparar_yen(itself)
     end
+
+    def rate_to_usd()
+        return 0.0093
+    end
+    
 end
 
 class Euro < Moneda
+
     def comparar(moneda)
         moneda.comparar_euro(itself)
     end
+
+    def rate_to_usd()
+        return 1.11
+    end
+    
 end
 
 class Bolivar < Moneda
+
     def comparar(moneda)
         moneda.comparar_bolivar(itself)
     end
+
+    def rate_to_usd()
+        return 0.0000135
+    end
+
 end
 
 class Bitcoin < Moneda
+
     def comparar(moneda)
         moneda.comparar_bitcoin(itself)
     end
+
+    def rate_to_usd()
+        return 8939.96
+    end
+
 end
 
+# Parte A
 class Integer 
 
     def dolares()

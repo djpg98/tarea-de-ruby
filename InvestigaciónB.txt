@@ -1,0 +1,12 @@
+a)  - En el caso de Java, los contenedores de tipos genericos son invariantes, por lo que Lista<A> y Lista<B> no tienen relacion de herencia entre si.
+    - En Scala se permite que los tipos parametrizados sean covariantes, contravariantes o invariantes. Pero como la definicion de listas en Scala es utilizando el modificador para covarianza, tendriamos que como B es subclase de A, entonces Lista<b> es subclase de Lista<A>.
+    - El tipo inferido seria List<Bottom>. En el caso de Scala al menos, ya que las listas son objetos inmutables, se les deberia asignar un tipo que no tenga ninguna instancia. 
+
+b)
+
+    De acuerdo a la regla propuesta por John C Reynolds, las funciones son contravariantes respecto a su tipo de input (Parámetros) y covariantes respecto a su tipo output (Tipo o clase de retorno). Esto, según wikipedia, se puede generalizar de la siguiente forma: S1 -> S2 <= T1 -> T2 si T1 <= S1 y S2 <= T2, donde y <= x indica que el tipo y es subtipo de la clase x o, se refiere al mismo tipo que x. Esto de tipos y subtipos también aplica para clases y subclases
+
+
+- En el caso de A -> C y B -> C, como B extiende a A y ambas clases de funciones tienen la misma clase (C) de retorno, aplicando la regla propuesta anteriormente, A -> C es una clase con jerarquía inferior o ancestro de B -> C (En particular, aquí se aprecia la contravarianza de parámetros). Desde un punto de vista estrictamente práctico se puede ver de la siguiente forma: En cualquier parte del código donde yo espere una función de clase B -> C, puedo utilizar una función A -> C pero no viceversa
+
+- En el caso de c -> B y C -> A, como ambas clases de funciones tienen la misma clase (C) de parámetro y B extiende a A, aplicando la regla propuesta anteriormente, C -> B es una clase con jerarquía inferior o descendiente de C -> A (En particular, aquí se aprecia la covarianza de output o tipo de retorno). Desde un punto de vista estrictamente práctico se puede ver de la siguiente forma: En cualquier parte del código donde yo espere una función de clase C -> A, puedo utilizar una función C -> B pero no viceversa
