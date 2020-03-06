@@ -53,9 +53,9 @@ class Complejo < Vector2
 
     def /(complejo)
         begin
-            raise "No se puede dividir entre 0" if complejo == Complejo.new(0)
+            raise "No se puede dividir entre 0" if complejo == Complejo.new(0) #El número complejo que multiplicado por su conjugada da 0 es 0
             numerador = self * ~complejo
-            denominador = (complejo.x ** 2 + complejo.y ** 2).to_f
+            denominador = (complejo.x ** 2 + complejo.y ** 2).to_f #Hay que pasar el denominador a float para que / no sea división entera
             Complejo.new(numerador.x / denominador, numerador.y / denominador)
         rescue
             puts "No se puede dividir entre 0"
@@ -63,8 +63,8 @@ class Complejo < Vector2
     end
 
     def to_s()
-        if x != 0
-            if y > 0
+        if @x != 0
+            if @y > 0
                 "#@x + #{@y}i"
             elsif y == 0
                 "#@x"
